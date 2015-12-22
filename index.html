@@ -1,0 +1,696 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/moy.markdown.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/jquery.fullPage.js"></script>
+        <script type="text/javascript" src="js/jquery.panzoom.js"></script>
+        <script type="text/javascript" src="js/zoom.controll.js"></script>
+        
+        <script type="text/javascript">
+        $(document).ready(function() {
+        $('#fullpage').fullpage();
+        });
+        $(document).ready(function() {
+        $('.zoomed').addZoomControll();
+        });
+        </script>
+    </head>
+    <body>
+        <div id="fullpage">
+            <div class="section" id="section0">
+                <div class="slide" id="slide0">
+                    <div class="slide-content">
+                        <h3>Тест</h3>
+                    </div>
+                </div>
+                <div class="slide" id="slide1">
+                    <div class="slide-content">
+                        
+                        
+                        <ul>
+                            <li>Перечислите регистры общего назначения</li>
+                            <li>Перечислите сегментные регистры</li>
+                            <li>Перечислите регистры управления</li>
+                            <li>Перечислите режимы работы процессора</li>
+                            <li>В какие режимы работы процессора можно перейти из реального?</li>
+                            <li>Перечислите способы адресации</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="section1">
+                <div class="slide" id="slide2">
+                    <div class="slide-content">
+                        <h3>Основы программирования для DOS</h3>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide3">
+                    <div class="slide-content">
+                        <p><strong>COM</strong></p>
+                        
+                        <pre><code>
+; ex_1.asm
+
+            .model      tiny                ; Модель памяти, используемая для СОМ.
+            .code                           ; Начало сегмента кода.
+            org         100h                ; Начальное значение счетчика - 100h.
+start:      mov         ah, 9               ; Номер функции DOS - в АН.
+            mov         dx, offset msg      ; Адрес строки - в DX.
+            int         21h                 ; Вызов системной функции DOS.
+            ret                             ; Завершение СОМ-программы.
+msg         db          "HelloWorld!", 0Dh, 0Ah,'$' ; Строка для вывода.
+            end         start               ; Конец программы.
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide4">
+                    <div class="slide-content">
+                        <p><strong>EXE</strong></p>
+                        
+                        <pre><code>
+; ex_2.asm
+
+            .model      small               ; Модель памяти, используемая для ЕХЕ.
+            .stack      100h                ; Сегмент стека размеромв 256 байт.
+            .code                       
+
+start:      mov         ax, DGROUP          ; Сегментный адрес строки message
+            mov         ds, ax              ; помещается в DS
+            mov         dx, offset msg
+            mov         ah, 9
+            int         21h
+            mov         ax, 4C00h
+            int         21h                 ; Функция DOS "завершить программу".
+            .data
+￼￼￼￼￼msg          db          "HelloWorld!", 0Dh, 0Ah,'$' ; Строка для вывода.
+            end         start               ; Конец программы.
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="section" id="section2">
+
+                <div class="slide" id="slide5">
+                    <div class="slide-content">
+                        <h3>Структура программы</h3>
+                    </div>
+                </div>
+
+                <div class="slide" id="slide6">
+                    <div class="slide-content">
+                        
+                        
+                        <pre><code>
+метка          ком/дир       операнды            ; комментарий
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide7">
+                    <div class="slide-content">
+                        <h3>Метка:</h3>
+                        
+                        <ul>
+                            <p>✓ mylabel</p>
+                            <p>✓ label123</p>
+                            <p>✓ label_$@?</p>
+                            <p>✗ 1label</p>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                <div class="slide" id="slide8">
+                    <div class="slide-content">
+                        <p><strong>Команды</strong></p>
+                        
+                        <pre><code>
+; ex_1.asm
+
+            .model      tiny                
+            .code               
+            org         100h
+start:      `mov`       ah, 9
+            `mov`       dx, offset msg
+            `int`       21h                 
+            `ret`                           
+msg         db          "HelloWorld!", 0Dh, 0Ah,'$'
+            end     
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide9">
+                    <div class="slide-content">
+                        <p><strong>Директивы</strong></p>
+                        
+                        <pre><code>
+; ex_1.asm
+
+            `.model`    tiny                
+            `.code`                     
+            `org`       100h
+start:      mov         ah, 9
+            mov         dx, offset message
+            int         21h
+            ret                         
+msg         `db`        "HelloWorld!", 0Dh, 0Ah,'$'
+            `end`   
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide10">
+                    <div class="slide-content">
+                        <p><strong>Операнды</strong></p>
+                        
+                        <pre><code>
+; ex_1.asm
+            .model      `tiny`                  
+            .code                       
+            org         `100h`
+start:      mov         `ah, 9`
+            mov         `dx, offset msg `
+            int         `21h`                   
+            ret                         
+msg         db          `"HelloWorld!", 0Dh, 0Ah,'$'`
+            end     
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide11">
+                    <div class="slide-content">
+                        <p><strong>Коментарии</strong></p>
+                        
+                        <pre><code>
+; ex_1.asm
+
+            .model      tiny                ; `Модель памяти, используемая для СОМ.`
+            .code                           ; `Начало сегмента кода.`
+            org         100h                ; `Начальное значение счетчика - 100h.`
+start:      mov         ah, 9               ; `Номер функции DOS - в АН.`
+            mov         dx, offset msg      ; `Адрес строки - в DX.`
+            int         21h                 ; `Вызов системной функции DOS.`
+            ret                             ; `Завершение СОМ-программы.`
+msg         db          "HelloWorld!", 0Dh, 0Ah,'$' ; `Строка для вывода.`
+            end         start               ; `Конец программы.`
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="section" id="section3">
+
+                <div class="slide" id="slide12">
+                    <div class="slide-content">
+                        <h3>Некоторые непривилегированные команды</h3>
+                    </div>
+                </div>
+                <div class="slide" id="slide13">
+                    <div class="slide-content">  
+                        <p><strong>MOV</strong></p>
+                        
+                        <pre><code>
+__Синтаксис__
+    MOV приемник,источник
+__Машинный код__
+    88 /r — MOV r/m8,r8
+    89 /r — MOV r/m16,r16
+    89 /r — MOV r/m32,r32
+    8А /r — MOV r8,r/m8
+    8В /r — MOV r16,r/m16
+    8В /r — MOV r32,r/m32
+    8C /r — MOV r/m16,Sreg**
+    8E /r — MOV Sreg,r/m16
+    А0 — MOV AL,moffs8*
+    A1 — MOV AX,moffs16*
+    A1 — MOV EAX,moffs32*
+    A2 — MOV moffs8*,AL
+    A3 — MOV moffs16*,AX
+    A3 — MOV moffs32*,EAX
+    B0+rb — MOV r8,imm8
+    B8+rw — MOV r16,imm16
+    B8+rd — MOV r32,imm32
+    C6 /0 — MOV r/m8,imm8
+    C7 /0 — MOV r/m16,imm16
+    C7 /0 — MOV r/m32,imm32
+__Описание__
+    Копирование
+__Действие__
+    Копирование содержимого операнда источник в операнд приемник.
+__Флаги__
+    OF = ? SF = ? ZF = ? AF = ? PF = ? CF = ?
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide14">
+                    <div class="slide-content">
+                        <p><strong>RET</strong></p>    
+                        <pre><code>
+__Синтаксис__
+    RET число
+__Машинный код__
+    СЗ — ret (близкий возврат)
+    СВ — ret (дальний возврат)
+    С2 i16 — ret i16 (близкий возврат с выталкиванием i16 байт из стека)
+    СА i16 — ret i16 (дальний возврат с выталкиванием i16 байт из стека) 
+__Описание__
+    Возврат из процедуры.
+__Действие__
+    Передача управления по адресу, расположенному на вершине стека. Этот адрес обычно помещается в стек командой CALL, его значение соответствует команде, следующей за командой CALL. Необязательный операнд число определяет количество байтов стека, которые будут вытолкнуты после выталкивания адреса возврата. 
+__Флаги__
+    Изменяются только при переключении задачи
+                        </code></pre>
+                    </div>
+                </div>
+                
+                
+                <div class="slide" id="slide15">
+                    <div class="slide-content">
+                        <p><strong>INT</strong></p>
+                        
+                        <pre><code>
+__Синтаксис__
+    INT номер_прерывания
+__Машинный код__
+    int 3
+    int imm8
+__Описание__
+    вызов подпрограммы обслуживания прерывания с номером прерывания, заданным операндом команды.
+__Действие__
+    записать в стек регистр флагов eflags/flags и адрес возврата. При записи адреса возврата вначале записывается содержимое сегментного регистра cs, затем содержимое указателя команд eip/ip;
+    сбросить в ноль флаги if и tf;
+    передать управление на программу обработки прерывания с указанным номером.
+__Флаги__
+    IF = 0  TF = 0
+__Примечания__
+    int 3 — имеет свой индивидуальный код операции 0cch и занимает один байт. Это обстоятельство делает ее очень удобной для использования в различных программных отладчиках для установки точек прерывания путем подмены первого байта любой команды. Микропроцессор, встречая в последовательности команд команду с кодом операции 0cch, вызывает программу обработки прерывания с номером вектора 3, которая служит для связи с программным отладчиком.
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="section4">
+                <div class="slide" id="slide16">
+                    <div class="slide-content">
+                        <h3>Некоторые директивы</h3>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide17">
+                    <div class="slide-content">
+                        <p><strong>org</strong></p>
+                        
+                        <pre><code>
+__Синтаксис__
+    org значение
+__Описание__
+    Устанавливает дополнительное смещение при адрессации.
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide18">
+                    <div class="slide-content">
+                        <p><strong>D</strong>*</p>
+                        
+                        <pre><code>
+__Синтаксис__
+    имя_переменной d* значение
+__Описание__
+    где, D* — одна из нижеприведенных псевдокоманд: DB - определить байт;
+        DW - определить слово (2 байта);
+        DD - определить двойное слово (4 байта);
+        DF - определить 6 байт (адрес в формате 16-битный селектор: 32-битное сме- щение);
+        DQ - определить учетверенное слово (8 байт);
+        DT - определить 10 байт (80-битные типы данных, используемые FPU).
+
+    Поле значения может содержать одно или несколько чисел, строк символов (взятых в одиночные или двойные кавычки), операторов ? и DUP, разделенных запятыми. Все установленные таким образом данные окажутся в выходном файле, а имя переменной будет соответствовать адресу первого из указанных Значений. 
+
+__Пример__    
+    text_string     db      'Hello world!'
+    number          dw      7
+    table           db      1,2,3,4,5,6,7,8,9,OAh,OBh,OCh,ODh,OEh,OFh
+    float_number    dd      3.5e7
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide" id="slide19">
+                    <div class="slide-content">
+                        <p><strong>end</strong></p>
+                        
+                        <pre><code>
+__Синтаксис__
+    end метка/выражение
+__Описание__
+    Этой директивой завершается любая программа на ассемблере. В роли необязательного операнда здесь выступает метка (или выражение), определяющая адрес, с которого начинается выполнение программы. Если программа состоит из нескольких модулей, только один файл может содержать начальный адрес, так же как в С только один файл может содержать функцию main()
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="section5">
+
+
+                <div class="slide" id="slide20">
+                    <div class="slide-content">
+                        <h3>Организация программы</h3>
+                    </div>
+                </div>
+
+                <div class="slide" id="slide21">
+                    <div class="slide-content">
+                        <p>Сегмент программы описывается директивами <code>SEGMENT</code> и <code>ENDS</code>:</p>
+                                
+                        <pre><code>
+имя_сегмента segment readonly выравн. тип разряд 'класс'
+    ...
+имя_сегмента ends
+                        </code></pre>
+                    </div>
+                </div>
+
+                <div class="slide" id="slide22">
+                    <div class="slide-content">     
+                        
+                        <ul>
+                            <li><strong>Имя сегмента</strong> - метка, которая будет использоваться для получения сегментного адреса.</li>
+                            <li><strong>READONLY</strong> - Если этот операнд присутствует, MASM выдаст сообщение об ошибке на все команды, выполняющие запись в данный сегмент. Другие ассемблеры этот операнд игнорируют.</li>
+                            <li><p><strong>Выравнивание</strong> - Указывает ассемблеру и компоновщику, с какого адреса может начинаться сегмент.</p>
+
+                            <ul>
+                                <li><code>BYTE</code> - с любого адреса;</li>
+                                <li><code>WORD</code> - с четного адреса;</li>
+                                <li><code>DWORD</code> - с адреса, кратного 4;</li>
+                                <li><code>PARA</code> - с адреса, кратного 16 (граница параграфа);</li>
+                                <li><p><code>PAGE</code> - с адреса, кратного 256.</p>
+                                
+                                <p>  По умолчанию используется выравнивание по границе параграфа.</p></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide" id="slide23">
+                <div class="slide-content">
+                    <ul>
+                        <li><p><strong>Тип</strong> -  Выбирает один из возможных типов комбинирования сегментов:</p>
+                        
+                        <ul>
+                            <li>тип <code>PUBLIC</code> (иногда используется синоним MEMORY) означает, что все такие сегменты с одинаковым именем, но разными классами будут объединены в один;</li>
+                            <li>тип <code>STACK</code> - то же самое, что и PUBLIC, но должен использоваться для сегментов стека, потому что при загрузке программы сегмент, полученный объединением всех сегментов типа STACK, будет использоваться как стек;</li>
+                            <li>сегменты типа <code>COMMON</code> с одинаковым именем также объединяются в один, но не последовательно, а по одному и тому же адресу, следовательно, длина суммарного сегмента будет равна не сумме длин объединяемых сегментов, как в случае PUBLIC и STACK, а длине максимального. Таким способом иногда можно формировать оверлейные программы;</li>
+                            <li>тип <code>AT</code> - выражение указывает, что сегмент должен располагаться по фиксированному абсолютному адресу в памяти. Результат выражения, использующегося в качестве операнда для AT, равен этому адресу, деленному на 16. Например: segment at 40h - сегмент, начинающийся по абсолютному адресу 0400h. Такие сегменты обычно содержат только метки, указывающие на области памяти, которые могут потребоваться программе;</li>
+                            <li><code>PRIVATE</code> (значение по умолчанию) - сегмент такого типа не объединяется с другими сегментами.</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide" id="slide24">
+                <div class="slide-content">
+                    <ul>
+                    </li>
+                    <li><strong>Разрядность</strong> - этот операнд может принимать значения USE16 и USE32. Размер сегмента, описанного как USE16, не может превышать 64 Кб, и все команды и адреса в этом сегменте считаются 16-битными. В этих сегментах все равно можно применять команды, использующие 32-битные регистры или ссылающиеся на данные в 32-битных сегментах, но они будут использовать префикс изменения разрядности операнда или адреса и окажутся длиннее и медленнее. Сегменты USE32 могут занимать до 4 Гб, и все команды и адреса в них по умолчанию 32-битные. Если разрядность сегмента не указана, по умолчанию используется USE 16 при условии, что перед .MODEL не применялась директива задания допустимого набора команд .386 или старше.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide" id="slide25">
+            <div class="slide-content">
+                <ul>
+                    <li><strong>Класс сегмента</strong> - это любая метка, взятая в одинарные кавычки. Все сегменты с одинаковым классом, даже сегменты типа PRIVATE, будут расположены в исполняемом файле непосредственно друг за другом.</li>
+                </ul>
+            </div>
+        </div>
+        
+        
+        <div class="slide" id="slide26">
+            <div class="slide-content">
+                <p>Если в программе определено много сегментов, удобно объединить несколько сегментов в группу, адресуемую с помощью одного сегментного регистра:</p>
+                
+                                <pre><code>имя_группы group имя_сегмента...
+                </code></pre>
+                
+                <p>Имя группы теперь можно применять вместо имен сегментов для получения сегментного адреса и для директивы <code>ASSUME</code>:</p>
+                
+                                <pre><code>assume регистр:связь,..
+                </code></pre>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="section" id="section6">
+        <div class="slide" id="slide27">
+            <div class="slide-content">
+                <h3>Модели памяти</h3>   
+            </div>
+        </div>
+
+        <div class="slide" id="slide28">
+            <div class="slide-content">
+                <p>Модели памяти задаются директивой <code>.MODEL</code></p>
+                        
+                <pre><code>
+.model  модель, язык, модификатор
+                </code></pre>
+            </div>
+        </div>
+        
+        <div class="slide" id="slide29">
+            <div class="slide-content">
+                <ul>
+                    <li><p><strong>Модель</strong> - одно из следующих слов:</p>
+                    
+                    <ul>
+                        <li><p><code>TINY</code> - код, данные и стек размещаются в одном и том же сегменте размером до 64 Кб. Эта модель памяти чаще всего используется при написании на ассемблере небольших программ;</p></li>
+                        <li><p><code>SMALL</code> - код размещается в одном сегменте, а данные и стек - в другрм (для их описания могут применяться разные сегменты, но объединенные в одну группу). Эту модель памяти также удобно использовать для создания программ на ассемблере;</p></li>
+                        <li><p><code>COMPACT</code> - код размещается в одном сегменте, а для хранения данных могут использоваться несколько сегментов, так что для обращения к данным требуется указывать сегмент и смещение (данные дальнего типа);</p></li>
+                        <li><p><code>MEDIUM</code> - код размещается в нескольких сегментах, а все данные - в одном, поэтому для доступа к данным используется только смещение, а вызовы подпрограмм применяют команды дальнего вызова процедуры;</p></li>
+                        <li><p><code>LARGE</code> и <code>HUGE</code> — и код, и данные могут занимать несколько сегментов;</p></li>
+                        <li><p><code>FLAT</code> - то же, что и TINY, но используются 32-битные сегменты, так что мак-
+                        симальный размер сегмента, содержащего и данные, и код, и стек, - 4 Мб.</p></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="slide" id="slide30">
+        <div class="slide-content">
+            <ul>
+                <li><p><strong>Язык</strong> - необязательный операнд, принимающий значения С, PASCAL, BASIC, FORTRAN, SYSCALL и STDCALL. Если он указан, подразумевается, что Процедуры рассчитаны на вызов из программ на соответствующем языке высокого уровня, следовательно, если указан язык С, все имена ассемблерных процедур, объявленных как PUBLIC, будут изменены так, чтобы начинаться с символа подчеркивания, как это принято в С.</p></li>
+                <li><p><strong>Модификатор</strong> - необязательный операнд, принимающий значения NEARSTACK (по умолчанию) или FARSTACK. Во втором случае сегмент стека не будет объединяться в одну группу с сегментами данных.</p></li>
+            </ul>
+        </div>
+    </div>
+    
+    
+    
+    <div class="slide" id="slide31">
+        <div class="slide-content">
+            <p>Упрощенные директивы определения сегментов:</p>
+            <pre><code>
+    `.code`     ~= _ТЕХТ segment word public 'CODE' | name_TEXT segment word public 'CODE'
+    `.stack`    ~= STACK segment para public 'stack'
+    `.data`     ~= _DATA segment word public 'DATA'
+    `.data?`    ~= _BSS segment word public 'BSS'
+    `.const`    ~= CONST segment word public 'CONST'
+    `.fardata`  ~= имя_сегмента segment para private 'FAR_DATA'
+    `.fardata?` ~= имя_сегмента segment para private 'FAR_BSS'
+            </code></pre>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="section7">
+
+
+    <div class="slide" id="slide32">
+        <div class="slide-content">
+            <h3>Примеры</h3>
+        </div>
+    </div>
+    <div class="slide" id="slide33">
+        <div class="slide-content">
+            <p><strong>ex_1</strong></p>
+                <pre><code>
+; ex_1.asm
+            
+                        .model      tiny                ; Модель памяти, используемая для СОМ.
+                        .code                           ; Начало сегмента кода.
+                        org         100h                ; Начальное значение счетчика - 100h.
+            start:      mov         ah, 9               ; Номер функции DOS - в АН.
+                        mov         dx, offset msg      ; Адрес строки - в DX.
+                        int         21h                 ; Вызов системной функции DOS.
+                        ret                             ; Завершение СОМ-программы.
+            msg         db          "HelloWorld!", 0Dh, 0Ah,'$' ; Строка для вывода.
+                        end         start               ; Конец программы.
+            </code></pre>
+            
+            <pre><code>tasm ex_1.asm
+tlink /t /x ex_1.obj
+./ex_1.com
+            </code></pre>
+        </div>
+    </div>
+    
+    <div class="slide" id="slide34">
+        <div class="slide-content">
+            <p><strong>ex_2</strong></p>
+                <pre><code>
+; ex_2.asm
+
+            .model      small               ; Модель памяти, используемая для ЕХЕ.
+            .stack      100h                ; Сегмент стека размеромв 256 байт.
+            .code                       
+
+start:      mov         ax, DGROUP          ; Сегментный адрес строки message
+            mov         ds, ax              ; помещается в DS
+            mov         dx, offset msg
+            mov         ah, 9
+            int         21h
+            mov         ax, 4C00h
+            int         21h                 ; Функция DOS "завершить программу".
+            
+            .data
+msg         db          "HelloWorld!", 0Dh, 0Ah,'$' ; Строка для вывода.
+            end         start               ; Конец программы.
+            </code></pre>
+            <pre><code>
+tasm ex_2.asm
+tlink /x ex_2.obj
+./ex_2.exe
+            </code></pre>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="section8">
+
+    <div class="slide" id="slide35">
+        <div class="slide-content">
+            <h3>ПЗ</h3>
+        </div>
+    </div>
+
+
+    <div class="slide" id="slide36">
+        <div class="slide-content">
+            <p><strong>Задание:</strong></p>
+            <pre><code>
+Напишите программу, выводящую на экран все ASCII-символы, 
+16 строк по 16 символов в строке. 
+(loop, push, pop, inc, test, jcc)
+            </code></pre>
+            
+        </div>
+    </div>
+</div>
+
+<div class="section" id="section9">
+    <div class="slide" id="slide37">
+        <div class="slide-content">
+            <h3>ДЗ</h3>
+        </div>
+    </div>
+
+    <div class="slide" id="slide38">
+        <div class="slide-content">
+            <p><strong>Изучить команды:</strong></p>
+            <pre><code>
+    PUSH
+    PUSHA
+    PUSHAD
+    РОРА
+    РОРАD
+    IN
+    OUT
+    CWD
+    CDQ
+    CBW
+    CWDE
+    MOVSX
+    MOVZX
+    XLAT
+    XLATB
+    LEA
+            </code></pre>
+        </div>
+    </div>
+        <div class="slide" id="slide39">
+            <div class="slide-content">
+                <p><strong>Изучить команды:</strong></p>
+                <pre><code>
+    ADD
+    ADC
+    XADD
+    SUB
+    SBB
+    MUL
+    IMUL
+    DIV
+    IDIV
+    INC
+    DEC
+    NEG
+    СМР
+    CMPXCHG
+    CMPXCHG8B
+    DAA
+    DAS
+    AAA
+    AAS
+    AAM
+    AAD
+    AND
+    OR
+    XOR
+    NOT
+    TEST          
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="slide" id="slide40">
+            <div class="slide-content">
+                <p><strong>Изучить команды:</strong></p>
+                <pre><code>
+    SAR
+    SAL
+    SHR
+    SHL
+    SHRD
+    SHLD
+    ROR
+    ROL
+    RCR
+    RCL
+    BT
+    BTS
+    BTR
+    BTC
+    BSF
+    BSR
+    SETcc
+    JMP
+    Jcc
+    LOOP
+    CALL
+                </code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
